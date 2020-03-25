@@ -1,65 +1,43 @@
-import Vue from 'vue'
+import Vue from "vue";
 
-import VueRouter from 'vue-router'
+import VueRouter from "vue-router";
 
-import Home from '../views/Home.vue'
+import Home from "../views/Home.vue";
 
-import Login from '../views/Login.vue'
+import Login from "../views/Login.vue";
 
+import store from "../store";
 
-
-import store from '../store'
-
-
-
-Vue.use(VueRouter)
-
-
+Vue.use(VueRouter);
 
 const routes = [
-
   {
+    path: "/",
 
-    path: '/',
+    name: "Home",
 
-    name: 'Home',
-
-    component: Home,
-
+    component: Home
   },
 
   {
+    path: "/login",
 
-    path: '/login',
+    name: "Login",
 
-    name: 'Login',
-
-    component: Login,
-
-  },
-
-]
-
-
+    component: Login
+  }
+];
 
 const router = new VueRouter({
-
-  mode: 'history',
+  mode: "history",
 
   base: process.env.BASE_URL,
 
-  routes,
-
-})
-
-
+  routes
+});
 
 router.beforeEach((to, from, next) => {
+  to.name === "Login" || store.getters.getUser ? next() : next("/login");
+});
 
-  to.name === 'Login' || store.getters.getUser ? next() : next('/login')
-
-})
-
-
-
-export default router
+export default router;

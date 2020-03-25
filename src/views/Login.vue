@@ -1,45 +1,32 @@
 <template>
-
   <div id="firebaseui-auth-container" class="mt-8"></div>
-
 </template>
 
-
-
 <script>
-
 export default {
-
-  name: 'Login',
+  name: "Login",
 
   mounted() {
-
     const uiConfig = {
-
       callbacks: {
-
         signInSuccessWithAuthResult: authResult => {
+          this.$store.dispatch("setUser", authResult.user);
 
-          this.$store.dispatch('setUser', authResult.user)
+          this.$store.dispatch("showDrawer");
 
-          this.$store.dispatch('showDrawer')
+          this.$router.push("/");
 
-          this.$router.push('/')
-
-          return false
-
-        },
-
+          return false;
+        }
       },
 
-      signInOptions: [this.$firebase.auth.GoogleAuthProvider.PROVIDER_ID, this.$firebase.auth.EmailAuthProvider.PROVIDER_ID],
+      signInOptions: [
+        this.$firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        this.$firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
+    };
 
-    }
-
-    this.$firebaseui.start('#firebaseui-auth-container', uiConfig)
-
-  },
-
-}
-
+    this.$firebaseui.start("#firebaseui-auth-container", uiConfig);
+  }
+};
 </script>
